@@ -17,7 +17,7 @@ class YoutubeApp extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -26,7 +26,7 @@ class YoutubeApp extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.account_circle,
                 color: Colors.black,
               ),
@@ -54,7 +54,7 @@ class VideoListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       itemCount: 10, // 보여줄 비디오 수
       itemBuilder: (context, index) {
         return VideoListItemWidget(
@@ -64,6 +64,7 @@ class VideoListWidget extends StatelessWidget {
           channelName: 'Channel Name $index',
           viewCount: '1M views',
           publishedTime: '2 weeks ago',
+          channelProfileImage: 'assets/images/channel_profile_$index.png', // 유튜버 프로필 이미지
         );
       },
     );
@@ -76,6 +77,7 @@ class VideoListItemWidget extends StatelessWidget {
   final String channelName;
   final String viewCount;
   final String publishedTime;
+  final String channelProfileImage;
 
   VideoListItemWidget({
     required this.videoTitle,
@@ -83,12 +85,13 @@ class VideoListItemWidget extends StatelessWidget {
     required this.channelName,
     required this.viewCount,
     required this.publishedTime,
+    required this.channelProfileImage,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -98,41 +101,55 @@ class VideoListItemWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width, // 화면 폭에 맞게 이미지 크기 조절
             fit: BoxFit.cover,
           ),
-          const SizedBox(height: 8.0),
-          Text(
-            videoTitle,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 4.0),
-          Text(
-            channelName,
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 4.0),
+          SizedBox(height: 8.0),
           Row(
             children: [
-              Icon(Icons.remove_red_eye, size: 16.0, color: Colors.grey[600]),
-              const SizedBox(width: 4.0),
-              Text(
-                viewCount,
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.grey[600],
-                ),
+              CircleAvatar(
+                radius: 20.0,
+                backgroundImage: AssetImage(channelProfileImage),
               ),
-              const SizedBox(width: 8.0),
-              Text(
-                publishedTime,
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.grey[600],
-                ),
+              SizedBox(width: 8.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    videoTitle,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 4.0),
+                  Text(
+                    channelName,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  SizedBox(height: 4.0),
+                  Row(
+                    children: [
+                      Icon(Icons.remove_red_eye, size: 16.0, color: Colors.grey[600]),
+                      SizedBox(width: 4.0),
+                      Text(
+                        viewCount,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Text(
+                        publishedTime,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
